@@ -1,17 +1,27 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
+const fs = require('fs');
 
 const app = express();
 app.use(cors());
 
 // Servir archivos estáticos del frontend compilado
 const distPath = path.join(__dirname, '../client/dist');
-if (distPath) {
-  app.use(express.static(distPath));
-}
+console.log('Dist path:', distPath);
+console.log('Dist exists:', fs.existsSync(distPath));
+
+app.use(express.static(distPath, {
+  maxAge: '1d',
+  etag: false
+}));
 
 const port = process.env.PORT || 8080;
+
+// Endpoint de prueba
+app.get('/health', (req, res) => {
+  res.json({ status: 'ok', timestamp: new Date() });
+});
 
 // --- DATOS ESTÁTICOS DE EJEMPLO (los mismos que estaban en Home.jsx) ---
 
@@ -200,7 +210,14 @@ app.get('/api/standings', (req, res) => {
 // Ruta SPA: Redireccionar todas las rutas no coincidentes a index.html
 app.get('*', (req, res) => {
   const indexPath = path.join(__dirname, '../client/dist/index.html');
-  res.sendFile(indexPath);
+  console.log('Attempting to serve:', indexPath);
+  console.log('File exists:', fs.existsSync(indexPath));
+  
+  if (fs.existsSync(indexPath)) {
+    res.sendFile(indexPath);
+  } else {
+    res.status(404).json({ error: 'index.html not found', path: indexPath });
+  }
 });
 
 const server = app.listen(port, '0.0.0.0', () => {
