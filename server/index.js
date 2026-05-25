@@ -1,9 +1,14 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 
 const app = express();
 app.use(cors()); // Permite la comunicación desde el cliente
+
+// Servir archivos estáticos del frontend compilado (para Hostinger)
+app.use(express.static(path.join(__dirname, '../client/dist')));
+
 const port = process.env.PORT || 3001; // Puerto para el servidor
 
 // --- DATOS ESTÁTICOS DE EJEMPLO (los mismos que estaban en Home.jsx) ---
@@ -188,6 +193,11 @@ app.get('/api/fixtures', (req, res) => {
 
 app.get('/api/standings', (req, res) => {
   res.json(STANDINGS_DATA);
+});
+
+// Ruta SPA: Redireccionar todas las rutas no coincidentes a index.html
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/dist/index.html'));
 });
 
 app.listen(port, () => {
