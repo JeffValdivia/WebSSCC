@@ -5,7 +5,7 @@
   "main": "server/index.js",
   "scripts": {
     "start": "cd server && node index.js",
-    "build": "npm install && cd server && npm install && cd ../client && npm install && npx vite build",
+    "build": "npm install && cd server && npm install && cd ../client && npm install --legacy-peer-deps && npm run build",
     "dev": "cd server && npm install && cd ../client && npm install && npm run dev"
   },
   "keywords": ["sports", "tournament"],
