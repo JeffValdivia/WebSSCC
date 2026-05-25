@@ -1,0 +1,14 @@
+{
+  "name": "websscc",
+  "version": "1.0.0",
+  "description": "Sports tournament application for SSCC",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "cd server && node index.js",
+    "build": "cd server && npm install && cd ../client && npm install && npm run build",
+    "dev": "cd server && npm install && cd ../client && npm install && npm run dev"
+  },
+  "keywords": ["sports", "tournament"],
+  "author": "",
+  "license": "ISC"
+}
