@@ -1,21 +1,17 @@
-try {
-  require('dotenv').config();
-} catch (e) {
-  // dotenv es opcional
-}
-
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
 
 const app = express();
-app.use(cors()); // Permite la comunicación desde el cliente
+app.use(cors());
 
-// Servir archivos estáticos del frontend compilado (para Hostinger)
+// Servir archivos estáticos del frontend compilado
 const distPath = path.join(__dirname, '../client/dist');
-app.use(express.static(distPath));
+if (distPath) {
+  app.use(express.static(distPath));
+}
 
-const port = process.env.PORT || 3001; // Puerto para el servidor
+const port = process.env.PORT || 8080;
 
 // --- DATOS ESTÁTICOS DE EJEMPLO (los mismos que estaban en Home.jsx) ---
 
@@ -203,9 +199,14 @@ app.get('/api/standings', (req, res) => {
 
 // Ruta SPA: Redireccionar todas las rutas no coincidentes a index.html
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/dist/index.html'));
+  const indexPath = path.join(__dirname, '../client/dist/index.html');
+  res.sendFile(indexPath);
 });
 
-app.listen(port, '0.0.0.0', () => {
-  console.log(`Servidor escuchando en puerto ${port}`);
+const server = app.listen(port, '0.0.0.0', () => {
+  console.log(`Server running on port ${port}`);
+});
+
+server.on('error', (err) => {
+  console.error('Server error:', err);
 });
