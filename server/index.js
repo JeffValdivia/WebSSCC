@@ -1,9 +1,10 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 
 const app = express();
 app.use(cors()); // Permite la comunicación desde el cliente
-const port = 3001; // Puerto para el servidor
+const port = process.env.PORT || 3001; // Puerto para el servidor
 
 // --- DATOS ESTÁTICOS DE EJEMPLO (los mismos que estaban en Home.jsx) ---
 

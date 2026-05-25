@@ -95,10 +95,11 @@ export default function Home() {
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3001';
       try {
         const [fixturesRes, standingsRes] = await Promise.all([
-          fetch('http://localhost:3001/api/fixtures'),
-          fetch('http://localhost:3001/api/standings')
+          fetch(`${apiUrl}/api/fixtures`),
+          fetch(`${apiUrl}/api/standings`)
         ]);
         const fixtures = await fixturesRes.json();
         const standings = await standingsRes.json();
