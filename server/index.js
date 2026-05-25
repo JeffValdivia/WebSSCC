@@ -1,4 +1,9 @@
-require('dotenv').config();
+try {
+  require('dotenv').config();
+} catch (e) {
+  // dotenv es opcional
+}
+
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
@@ -7,7 +12,8 @@ const app = express();
 app.use(cors()); // Permite la comunicación desde el cliente
 
 // Servir archivos estáticos del frontend compilado (para Hostinger)
-app.use(express.static(path.join(__dirname, '../client/dist')));
+const distPath = path.join(__dirname, '../client/dist');
+app.use(express.static(distPath));
 
 const port = process.env.PORT || 3001; // Puerto para el servidor
 
@@ -200,6 +206,6 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/dist/index.html'));
 });
 
-app.listen(port, () => {
-  console.log(`Servidor escuchando en http://localhost:${port}`);
+app.listen(port, '0.0.0.0', () => {
+  console.log(`Servidor escuchando en puerto ${port}`);
 });
