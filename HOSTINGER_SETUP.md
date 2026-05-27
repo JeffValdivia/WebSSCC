@@ -44,12 +44,12 @@ npm run build
 ```env
 NODE_ENV=production
 PORT=3001
-API_URL=https://tu-dominio.com
+API_URL=https://www.copafa.com
 ```
 
 **En `/client/.env.production`:**
 ```env
-VITE_API_URL=https://tu-dominio.com
+VITE_API_URL=https://www.copafa.com
 ```
 
 ### 4. Compilar Frontend
