@@ -16,7 +16,7 @@ app.use(express.static(distPath, {
   etag: false
 }));
 
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 3001;
 
 // Endpoint de prueba
 app.get('/health', (req, res) => {
